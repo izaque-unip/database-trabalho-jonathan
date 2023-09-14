@@ -1,0 +1,202 @@
+create database dt_cc_trab
+use dt_cc_trab 
+
+create table tbUf
+(
+	id smallint identity,
+	nome varchar(30) not null,
+	primary key(id)
+)
+create table tbMunicipio
+(
+	id smallint identity,
+	nome varchar(30) not null,
+	uf smallint not null,
+	primary key(id),
+	foreign key(uf) references tbUF(id)
+)
+
+create table tbCliente
+(
+	id smallint identity,
+	nome varchar(50) not null,
+	cpf char(11) not null,
+	rua varchar(50) not null,
+	nro varchar(10) not null,
+	bairro varchar(30),
+	cep char(8) not null,
+	telefone char(11) not null,
+	id_municipio smallint not null,
+	primary key(id),
+	foreign key(id_municipio) references tbMunicipio(id)
+)
+
+create table tbFornecedor
+(
+	id smallint identity,
+	nome varchar(50) not null,
+	cpf char(11) not null,
+	rua varchar(50) not null,
+	nro varchar(10) not null,
+	bairro varchar(30),
+	cep char(8) not null,
+	telefone char(11) not null,
+	id_municipio smallint not null,
+	primary key(id),
+	foreign key(id_municipio) references tbMunicipio(id)
+)
+
+create table tbProduto
+(
+	id smallint identity,
+	nome varchar(50) not null,
+	cod_barras varchar(14) not null,
+	val_custo decimal(9,2) not null,
+	val_venda decimal(9,2) not null,
+	saldo int not null,
+	id_fornecedor smallint,
+	primary key(id),
+	foreign key(id_fornecedor) references tbFornecedor(id)
+)
+
+create table tbVenda
+(
+	nro smallint identity,
+	val_total decimal(9,2) not null,
+	data date not null,
+	id_cliente smallint,
+	primary key(nro),
+	foreign key(id_cliente) references tbCliente(id)
+)
+
+create table tbItVenda
+(
+	id_produto smallint,
+	nro_venda smallint,
+	val_unit decimal(9,2) not null,
+	qtde int not null,
+	primary key(id_produto, nro_venda),
+	foreign key(nro_venda) references tbVenda(nro),
+	foreign key(id_produto) references tbProduto(id) 
+)
+
+DBCC CHECKIDENT('tbVenda', RESEED, 0)
+
+insert into tbUf values ('SAO PAULO')
+insert into tbUf values ('MINAS GERAIS')
+
+insert into tbMunicipio values ('SAO JOSE DO RIO PRETO', 1)
+insert into tbMunicipio values ('CEDRAL', 1)
+insert into tbMunicipio values ('UCHOA', 1)
+insert into tbMunicipio values ('BELO HORIZONTE', 2)
+
+insert into tbCliente values ('CLIENTE TESTE 02','22222222222','RUA 02', '02', 'BAIRRO 02','2222222', '1792222222', 1)
+insert into tbCliente values ('CLIENTE TESTE 03','33333333333','RUA 03', '03', 'BAIRRO 03','3333333', '1793333333', 1)
+insert into tbCliente values ('CLIENTE TESTE 04','44444444444','RUA 04', '04', 'BAIRRO 04','4444444', '1794444444', 3)
+insert into tbCliente values ('CLIENTE TESTE 05','55555555555','RUA 05', '05', 'BAIRRO 05','5555555', '1795555555', 4)
+insert into tbCliente values ('CLIENTE TESTE 06','66666666666','RUA 06', '06', 'BAIRRO 06','6666666', '1796666666', 4)
+
+insert into tbFornecedor values ('FORNEC TESTE 01','11111111111','RUA 01', '01', 'BAIRRO 01','1111111', '1791111111', 1)
+insert into tbFornecedor values ('FORNEC TESTE 02','22222222222','RUA 02', '02', 'BAIRRO 02','2222222', '1792222222', 1)
+insert into tbFornecedor values ('FORNEC TESTE 03','33333333333','RUA 03', '03', 'BAIRRO 03','3333333', '1793333333', 1)
+insert into tbFornecedor values ('FORNEC TESTE 04','44444444444','RUA 04', '04', 'BAIRRO 04','4444444', '1794444444', 2)
+insert into tbFornecedor values ('FORNEC TESTE 05','55555555555','RUA 05', '05', 'BAIRRO 05','5555555', '1795555555', 4)
+insert into tbFornecedor values ('FORNEC TESTE 06','66666666666','RUA 06', '06', 'BAIRRO 06','6666666', '1796666666', 4)
+
+insert into tbProduto values ('PROD TESTE A','AAAAAAAAAAAAA',1.00,2.00,100,1)
+insert into tbProduto values ('PROD TESTE B','BBBBBBBBBBBBB',1.10,2.20,200,1)
+insert into tbProduto values ('PROD TESTE C','CCCCCCCCCCCCC',1.50,2.50,100,1)
+insert into tbProduto values ('PROD TESTE D','DDDDDDDDDDDDD',2.00,5.00,500,1)
+insert into tbProduto values ('PROD TESTE E','EEEEEEEEEEEEE',7.00,12.00,100,1)
+insert into tbProduto values ('PROD TESTE F','FFFFFFFFFFFFF',10.00,20.00,300,1)
+insert into tbProduto values ('PROD TESTE G','GGGGGGGGGGGGG',99.00,130.00,50,1)
+insert into tbProduto values ('PROD TESTE H','HHHHHHHHHHHHH',9.50,15.00,100,1)
+insert into tbProduto values ('PROD TESTE I','IIIIIIIIIIIII',0.10,0.30,1000,1)
+insert into tbProduto values ('PROD TESTE J','JJJJJJJJJJJJJ',1.00,1.99,10,1)
+
+insert into tbVenda values (0,'2023-08-17',1)
+insert into tbVenda values (0,'2023-08-16',1)
+insert into tbVenda values (0,'2023-08-17',1)
+insert into tbVenda values (0,'2023-08-15',2)
+insert into tbVenda values (0,'2023-08-10',2)
+insert into tbVenda values (0,'2023-08-3',3)
+insert into tbVenda values (0,'2023-08-2',4)
+insert into tbVenda values (0,'2023-07-18',4)
+insert into tbVenda values (0,'2023-07-25',5)
+insert into tbVenda values (0,'2023-07-17',5)
+insert into tbVenda values (0,'2023-06-11',1)
+
+insert into tbItVenda values (1,1,2,2)
+insert into tbItVenda values (2,1,2,2)
+insert into tbItVenda values (3,1,2,2)
+insert into tbItVenda values (4,1,2,2)
+insert into tbItVenda values (1,2,2,2)
+insert into tbItVenda values (2,2,2,2)
+insert into tbItVenda values (8,2,2,2)
+insert into tbItVenda values (10,2,2,2)
+insert into tbItVenda values (1,3,2,2)
+insert into tbItVenda values (9,3,2,2)
+insert into tbItVenda values (2,4,2,2)
+insert into tbItVenda values (3,4,2,2)
+insert into tbItVenda values (5,4,2,2)
+insert into tbItVenda values (7,5,2,2)
+insert into tbItVenda values (8,5,2,2)
+insert into tbItVenda values (9,5,2,2)
+insert into tbItVenda values (3,5,2,2)
+insert into tbItVenda values (2,5,2,2)
+insert into tbItVenda values (6,5,2,2)
+insert into tbItVenda values (10,5,2,2)
+
+alter table tbItVenda
+add  val_total decimal (9,2)
+
+update tbItVenda
+set val_total = val_unit * qtde;
+
+/*select P.nome, I.qtde, I.valor_total from tbProduto P, tbFornecedor F where F.id=1 and P.id=I.id_produto*/
+select P.nome, I.qtde, I.val_total from tbItVenda I
+inner join tbProduto P
+on P.id=I.id_produto
+inner join tbFornecedor F
+on F.id=1
+
+/*select U.nome, M.nome, C.nome from tbUf U, tbMunicipuo M, tbCliente C where U.id=1 and id=C.id_municipio*/
+select U.nome as UF, M.nome as Municipio, C.nome as Cliente from tbUF U 
+inner join tbMunicipio M
+on M.UF = U.id
+inner join tbCliente C 
+on C.id_Municipio = M.id
+where M.nome like ('% Preto')
+
+select P.id, P.nome, sum (I.val_total) from tbItVenda I
+inner join tbProduto P
+on P.id = I.id_produto
+where P.id_fornecedor = 1
+group by P.id, P.nome
+
+select P.nome , count (*) from tbProduto P
+inner join tbItVenda I
+on I.id_produto = P.id
+group by P.nome
+
+
+select P.id, P.nome, sum (I.val_total) / count(*) from tbItVenda I
+inner join tbProduto P
+on P.id = I.id_produto
+where P.id_fornecedor = 1
+group by P.id, P.nome
+
+
+select P.Id, P.nome , AVG (I.val_total) from tbItVenda I
+inner join tbProduto P
+on I.id_produto = P.id
+group by P.id, P.nome
+
+
+/*TRABALHO 14/09/2023 */
+
+update tbVenda 
+set  val_total = ( 
+select sum(I.val_unit * I.qtde)
+from tbItVenda I
+where tbVenda.nro = id_produto)
