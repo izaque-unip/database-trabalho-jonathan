@@ -1,0 +1,15 @@
+create trigger t_attValProd
+on tbItNFSai
+after insert
+as
+begin 
+	update tbItNfEnt
+	set tbItNfEnt.val_unit = tbProduto.valor
+	from tbItNfEnt inner join tbProduto
+	on tbProduto.id = id_produto.tbItNfEnt
+	where tbItNfEnt.num_nota in  (select I.id from inserted I);
+
+	update tbItNfEnt
+	set val_total = inserted.val_unit * inserted.qtde
+	from tbItNfEnt inner join inserted on tbItNfEnt = inserted.id
+end
