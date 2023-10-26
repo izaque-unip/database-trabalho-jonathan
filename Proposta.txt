@@ -1,0 +1,77 @@
+BDO2
+
+1. O supermercado VendasSempre S/A precisa desenvolver um sistema e
+
+o contratou para ser responsável pela criação do banco de dados.
+
+Inicialmente, sabemos que o supermercado deve ter dois sistemas, uma para
+frente de caixa e outro para retarguarda, e estes sistemas devem conversar
+uma vez por dia, uma vez que o sistema de retaguarda que terá que controle de
+estoque, contas a pagar e receber.
+
+No entanto, as vendas são efetuadas no sistema de frente de caixa que, depois,
+deve enviar as vendas realizadas para o sistema de retaguarda.
+
+Crie o banco de dados para o sistema de frente de caixa, onde o atendente
+passa os produtos e registra as vendas.
+
+Sabe-se que, para que isso aconteça, o sistema precisa ter, impreterivelmente,
+o cadastro de produtos, de condições de pagamento, de formas de pagamento e
+de preços. Além disso, as vendas devem ser registradas nesse sistema para que
+depois
+
+sejam enviadas para a retaguarda.
+
+2. Com base nas tabelas criadas para solução do primeiro exercício, agora nossa
+tarefa é:
+
+a) Criar um relatório de vendas por fornecedor.
+
+A procedure deve receber como parâmetro um intervalo de datas e um valor
+binário.
+
+Se o valor for 0, deve-se retornar o valor total de vendas por fornecedor,
+listando id do fornecedor,
+
+nome do fornecedor e o valor total das vendas para cada fornecedor.
+
+Se o valor for 1, deve-se retornar o valor total de vendas por produto, listando
+id e nome do fornecedor do produto,
+
+id e descricao do produto e o valor total de vendas deste produto no período.
+É importante atentar-se para vendas canceladas, que não devem entrar no cálculo.
+
+b) Criar um relatório de produtos com saldo abaixo do limite mínimo.
+
+Crie uma procedure que recebe como parâmetro um intervalo de datas e verifica a
+média de venda diária por produto
+
+no período informado (a média diária é a quantidade total vendida no período,
+dividido pela quantidade de dias do intervalo).
+
+Após calcular a média diária, deve-se verificar a quantidade de dias que O
+estoque atual poderá atender com base nesta média.
+
+Exemplo: Se a média diária é de 20 unidades e o saldo do produto é de 80
+unidades, esse produto só tem estoque para 4 dias.
+
+Mostrar para o usuário todos os produtos que possuem estoque para MENOS de 7
+dias.
+
+Obs. Devem ser mostrados também os produtos com estoque menor ou igual a O.
+
+c) Criar um relatório de recebimento por forma de pagamento.
+
+Crie uma procedure que recebe um intervalo de datas e retorna, neste intervalo,
+quanto foi vendido em cada forma de pagamento.
+
+Ex: Boleto - 209.000,00
+
+Cartão de crédito - 100.000,00
+
+d) Crie uma trigger para atualizar o saldo do estoque do produto ao ser
+realizada uma venda.
+
+Quanto um produto for vendido, é necessário subtrair a quantidade vendida do saldo em estoque.
+Toda vez que for realizada uma venda de uma quantidade maior do que o estoque tem capacidade para atender, deve-se mostar mensagem para o usuario, 
+indicando que aquele produto tem saqldo disponivel no sistema, mesmo que a venda seja efetivada.
